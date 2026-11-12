@@ -13,6 +13,10 @@
 */
 void NavEKF3_core::calcGpsGoodToAlign(void)
 {
+    // KOAFC (as 4.6.3): no 10 s GPS stability wait in SITL
+    gpsGoodToAlign = true;
+    return;
+
     if (inFlight && !finalInflightYawInit && assume_zero_sideslip() && !use_compass()) {
         // this is a special case where a plane has launched without magnetometer
         // is now in the air and needs to align yaw to the GPS and start navigating as soon as possible
@@ -318,6 +322,13 @@ void NavEKF3_core::calcGpsGoodForFlight(void)
 
     // also update whether the GPS fix is good enough for altitude
     gpsAccuracyGoodForAltitude = gpsAccuracyGood && gpsVertAccPass;
+
+    // KOAFC (as 4.6.3): GPS counted as good for flight
+    gpsSpdAccPass = true;
+    gpsVertAccPass = true;
+    ekfInnovationsPass = true;
+    gpsAccuracyGood = true;
+    gpsAccuracyGoodForAltitude = true;
 }
 
 // Detect if we are in flight or on ground

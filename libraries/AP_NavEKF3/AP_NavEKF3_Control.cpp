@@ -769,6 +769,11 @@ void NavEKF3_core::checkGyroCalStatus(void)
                             (P[11][11] <= delAngBiasVarMax) &&
                             (P[12][12] <= delAngBiasVarMax);
     }
+
+    // KOAFC (as 4.6.3): gyro bias counted as learned after 2.5 s
+    if (imuSampleTime_ms > 2500) {
+        delAngBiasLearned = true;
+    }
 }
 
 // Update the filter status
