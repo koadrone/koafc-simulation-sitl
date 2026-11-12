@@ -76,7 +76,8 @@
 extern const AP_HAL::HAL &hal;
 
 // baudrates to try to detect GPSes with
-const uint32_t AP_GPS::_baudrates[] = {9600U, 115200U, 4800U, 19200U, 38400U, 57600U, 230400U, 460800U};
+// Husanboy: Moved 230400U to the very front of the array
+const uint32_t AP_GPS::_baudrates[] = {230400U, 9600U, 115200U, 4800U, 19200U, 38400U, 57600U, 460800U};
 
 // initialisation blobs to send to the GPS to try to get it into the
 // right mode.

@@ -753,6 +753,11 @@ void NavEKF3_core::checkGyroCalStatus(void)
                             (P[11][11] <= delAngBiasVarMax) &&
                             (P[12][12] <= delAngBiasVarMax);
     }
+
+    // Husanboy: Allow 2.5 seconds of math to populate the covariance matrix before forcing gyro bias learning.
+    if (imuSampleTime_ms > 2500) {
+        delAngBiasLearned = true;
+    }
 }
 
 // Update the filter status
