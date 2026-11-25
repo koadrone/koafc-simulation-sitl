@@ -1,12 +1,13 @@
 # KOAFC Simulation - SITL flight controller source
 
-This repository holds the source of the simulated flight controller that ships with the KOAFC Simulation, and nothing
-else. The two programs are:
+This repository holds the source of the simulated flight controller that ships with the KOAFC Simulation (and the KOAFC Plane
+Simulation), and nothing else. The programs are:
 
 | Shipped program | Says on start (the short commit is this tag's) | Branch / tag here | Upstream ArduPilot base | KOAFC changes |
 |---|---|---|---|---|
 | `ardupilot\build\sitl\bin\arducopter.exe` | ArduCopter V4.6.3 (koafc-sitl-4.6.3's commit) | `4.6.3` / `koafc-sitl-4.6.3` | `12a6efea39425b084234551355470341f71f79d4` (branch ArduPilot-4.6, one commit after tag Copter-4.6.3) | 3 files, +18 / -1 |
 | `ardupilot\build\sitl\bin\arducopter-4.7.1.exe` | ArduCopter V4.7.1 (koafc-sitl-4.7.1's commit) | `4.7.1` / `koafc-sitl-4.7.1` | `dbe792162d06cab66c3475fd5556bf7a120f119e` (tag Copter-4.7.1) | 3 files, +18 / -1 |
+| `ardupilot\build\sitl\bin\arduplane-4.7.1.exe` (KOAFC Plane Simulation) | ArduPlane V4.7.1 (koafc-sitl-4.7.1's commit) | `4.7.1` / `koafc-sitl-4.7.1` (the same tag, built with `./waf plane`) | `dbe792162d06cab66c3475fd5556bf7a120f119e` (tag Copter-4.7.1; one ArduPilot tree for every vehicle) | the same 3 files |
 
 Each branch has these commits, in order:
 
@@ -20,7 +21,7 @@ The rest of the KOAFC Simulation (the simulator itself, its launcher, maps and a
 
 ## KOAFC's changes
 
-The same three changes in both versions (not limited to SITL in the code, but only the SITL build is shipped):
+The same three changes in both versions (and so in the plane build) (not limited to SITL in the code, but only the SITL build is shipped):
 - `libraries/AP_GPS/AP_GPS.cpp`: 230400 baud is tried first when detecting the GPS.
 - `libraries/AP_NavEKF3/AP_NavEKF3_Control.cpp`: the gyro bias counts as learned after 2.5 s.
 - `libraries/AP_NavEKF3/AP_NavEKF3_VehicleStatus.cpp`: no 10 s GPS stability wait before the EKF aligns, and the GPS
@@ -42,11 +43,12 @@ The shipped programs were built on Windows 10 under Cygwin 64-bit with ArduPilot
    git clone <this repository> koafc-sitl && cd koafc-sitl
    git checkout koafc-sitl-4.6.3        # or koafc-sitl-4.7.1
    python3.9 ./waf configure --board sitl --no-submodule-update
-   python3.9 ./waf copter
+   python3.9 ./waf copter               # or, on koafc-sitl-4.7.1, ./waf plane for arduplane
    ```
 
 3. The program is at `build/sitl/bin/arducopter.exe`. The simulator uses the 4.7.1 build under the name
-   `arducopter-4.7.1.exe`.
+   `arducopter-4.7.1.exe`. `./waf plane` gives `build/sitl/bin/arduplane.exe`, which the
+   KOAFC Plane Simulation ships as `arduplane-4.7.1.exe`.
 4. It needs Cygwin's runtime beside it, copied unmodified from Cygwin's `bin` folder: cygwin1.dll,
    cyggcc_s-seh-1.dll, cygstdc++-6.dll, cygiconv-2.dll and cygintl-8.dll.
 
